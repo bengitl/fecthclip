@@ -532,7 +532,7 @@ textarea::placeholder{
     const themeToggle = document.getElementById('theme-toggle');
     const moonIcon = document.getElementById('moon-icon');
     const sunIcon = document.getElementById('sun-icon');
-
+    const API_BASE = 'https://bened-reclip.hf.space';
     function setTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem('theme', theme);
@@ -629,7 +629,7 @@ textarea::placeholder{
           if(cookieFile){ 
             formData.append( 'cookieFile', cookieFile ); 
           } 
-          const res = await fetch('/api/info', {
+          const res = await fetch('https://bened-reclip.hf.space/api/info', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: formData,
@@ -795,7 +795,7 @@ textarea::placeholder{
         } else {
           payloadFormatId = c.selectedFormatId;
         }
-        const res = await fetch('/api/download', {
+        const res = await fetch('https://bened-reclip.hf.space/api/download', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -830,7 +830,7 @@ textarea::placeholder{
       const c = cardData[idx];
       const iv = setInterval(async () => {
         try {
-          const res = await fetch(`/api/status/${c.jobId}`);
+          const res = await fetch('${API_BASE}/api/status/${c.jobId}');
           const data = await res.json();
           if (data.status === 'done') {
             clearInterval(iv);
@@ -859,7 +859,7 @@ textarea::placeholder{
 
       // Try native Save As dialog (desktop app)
       try {
-        const res = await fetch(`/api/save/${c.jobId}`, { method: 'POST' });
+        const res = await fetch('${API_BASE}/api/save/${c.jobId}', { method: 'POST' });
         const data = await res.json();
         if (data.ok) return;                 // saved via native dialog
         if (data.error === 'Cancelled') return; // user cancelled
@@ -867,7 +867,7 @@ textarea::placeholder{
 
       // Fallback: browser-style download (web app)
       const a = document.createElement('a');
-      a.href = `/api/file/${c.jobId}/${encodeURIComponent(c.filename || 'download.mp4')}`;
+      a.href = `${API_BASE}/api/file/${c.jobId}/${encodeURIComponent(c.filename || 'download.mp4')}`;
       a.download = c.filename || '';
       a.click();
     }
