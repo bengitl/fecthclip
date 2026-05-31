@@ -7,7 +7,17 @@ import subprocess
 import threading
 from flask import Flask, request, jsonify, send_file, render_template
 from werkzeug.utils import secure_filename
+from flask_cors import CORS
 app = Flask(__name__)
+
+CORS(
+    app,
+    resources={
+        r"/*": {
+            "origins": "*"
+        }
+    }
+)
 DOWNLOAD_DIR = os.path.join(os.path.dirname(__file__), "downloads")
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
