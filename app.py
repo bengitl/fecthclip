@@ -131,9 +131,20 @@ def llms():
 @app.route("/api/info", methods=["POST"])
 def get_info():
     
-    url = request.form.get('url').strip()
+    data = request.get_json(silent=True) or {}
+    url = (
+        data.get("url")
+        or request.form.get("url")
+        or ""
+    ).strip()
+    if not url:
+        return jsonify({
+            "success": False,
+            "error": "No URL provided"
+            
+        }), 400
     cookie_path = None
-
+    file = None
     if 'cookieFile' in request.files:
 
         file = request.files['cookieFile']
