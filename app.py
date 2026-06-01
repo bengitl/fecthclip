@@ -18,8 +18,17 @@ CORS(
         }
     }
 )
-DOWNLOAD_DIR = os.path.join(os.path.dirname(__file__), "downloads")
-os.makedirs(DOWNLOAD_DIR, exist_ok=True)
+import tempfile
+
+DOWNLOAD_DIR = os.path.join(
+    tempfile.gettempdir(),
+    "downloads"
+)
+
+os.makedirs(
+    DOWNLOAD_DIR,
+    exist_ok=True
+)
 
 jobs = {}
 
