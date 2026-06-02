@@ -830,7 +830,7 @@ textarea::placeholder{
       const c = cardData[idx];
       const iv = setInterval(async () => {
         try {
-          const res = await fetch('${API_BASE}/api/status/${c.jobId}');
+          const res = await fetch(`${API_BASE}/api/status/${c.jobId}`);
           const data = await res.json();
           if (data.status === 'done') {
             clearInterval(iv);
@@ -859,7 +859,7 @@ textarea::placeholder{
 
       // Try native Save As dialog (desktop app)
       try {
-        const res = await fetch('${API_BASE}/api/save/${c.jobId}', { method: 'POST' });
+        const res = await fetch(`${API_BASE}/api/save/${c.jobId}`, { method: 'POST' });
         const data = await res.json();
         if (data.ok) return;                 // saved via native dialog
         if (data.error === 'Cancelled') return; // user cancelled
